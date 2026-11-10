@@ -405,9 +405,8 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
           {doc.items.map((item, index) => (
             <div
               key={item.id}
-              className={`p-3.5 rounded-xl border transition ${
-                item.isOptional ? 'bg-amber-950/20 border-amber-800/40' : 'bg-slate-950/70 border-slate-800'
-              }`}
+              className={`p-3.5 rounded-xl border transition ${item.isOptional ? 'bg-amber-950/20 border-amber-800/40' : 'bg-slate-950/70 border-slate-800'
+                }`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2">
@@ -720,48 +719,99 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
       </div>
 
       {/* 6. TEMPLATE & ACCENT PALETTE */}
-      <div className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-3">
-        <div className="flex items-center gap-2 text-sky-400 font-mono-code text-xs uppercase tracking-wider border-b border-slate-800 pb-2">
-          <Palette className="w-4 h-4" />
-          <span>Stile Grafico & Colore Accento PDF</span>
-        </div>
+        <div className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div className="flex items-center gap-2 text-sky-400 font-mono-code text-xs uppercase tracking-wider border-b border-slate-800 pb-2">
+            <Palette className="w-4 h-4" />
+            <span>Stile Grafico & Colore Accento PDF</span>
+          </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { id: 'l2_executive', name: 'L2 Executive (Consigliato)' },
-            { id: 'corporate_prestige', name: 'Corporate Prestige' },
-            { id: 'swiss_minimal', name: 'Swiss Minimal' },
-            { id: 'modern_sidebar', name: 'Modern Sidebar' }
-          ].map((tmpl) => (
-            <button
-              key={tmpl.id}
-              onClick={() => onChange({ ...doc, template: tmpl.id as TemplateLayout })}
-              className={`p-2.5 rounded-lg border text-left text-xs font-medium transition ${
-                doc.template === tmpl.id
-                  ? 'bg-sky-950 border-sky-500 text-white font-bold'
-                  : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
-              }`}
-            >
-              {tmpl.name}
-            </button>
-          ))}
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {[
+            {
+                  id: 'l2_executive',
+                  name: 'L2 Executive',
+                  badge: 'Consigliato',
+                  desc: 'Header scuro tech studio, contrasto elevato e accenti moderni'
+                },
+                {
+                  id: 'corporate_prestige',
+                  name: 'Corporate Prestige',
+                  badge: 'Istituzionale',
+                  desc: 'Navy profondo, finiture formali e stile contabile B2B'
+                },
+                {
+                  id: 'swiss_minimal',
+                  name: 'Swiss Minimal',
+                  badge: 'Minimalista',
+                  desc: 'Design svizzero chiaro, tipografia pulita ed essenziale'
+                },
+                {
+                  id: 'modern_sidebar',
+                  name: 'Modern Sidebar',
+                  badge: 'Sidebar Laterale',
+                  desc: 'Colonna laterale scura con dati e corpo principale chiaro'
+                }
+              ].map((tmpl) => (
+                <button
+                  key={tmpl.id}
+              onClick={() => onChange({ ...doc, template: tmpl.id as TemplateLayout, updatedAt: new Date().toISOString() })}
+                  className={`p-3 rounded-xl border text-left text-xs font-medium transition flex flex-col justify-between ${doc.template === tmpl.id
+                        ? 'bg-sky-950/80 border-sky-400 text-white ring-2 ring-sky-500/30 shadow-lg shadow-sky-500/10'
+                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-300'
+                    }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-bold text-slate-100">{tmpl.name}</span>
+                      <span
+                        className={`text-[9px] px-1.5 py-0.5 rounded font-mono-code uppercase font-semibold ${doc.template === tmpl.id
+                            ? 'bg-sky-400/20 text-sky-300 border border-sky-400/30'
+                            : 'bg-slate-900 text-slate-500 border border-slate-800'
+                          }`}
+                      >
+                        {tmpl.badge}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">{tmpl.desc}</p>
+                  </div>
+                  <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center gap-1.5 text-[10px]">
+                    <span className={`w-2 h-2 rounded-full ${doc.template === tmpl.id ? 'bg-sky-400 animate-pulse' : 'bg-slate-700'}`} />
+                    <span className={doc.template === tmpl.id ? 'text-sky-300 font-semibold' : 'text-slate-500'}>
+                      {doc.template === tmpl.id ? 'Attivo' : 'Seleziona'}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
 
-        <div className="flex items-center gap-4 pt-2">
-          <span className="text-xs text-slate-400">Colore Primario Dettagli:</span>
-          {['#0ea5e9', '#6366f1', '#10b981', '#f59e0b', '#0f172a', '#e11d48'].map((c) => (
-            <button
-              key={c}
-              onClick={() => onChange({ ...doc, accentColor: c })}
-              style={{ backgroundColor: c }}
-              className={`w-6 h-6 rounded-full border-2 transition ${
-                doc.accentColor === c ? 'border-white scale-110' : 'border-transparent opacity-80 hover:opacity-100'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <span className="text-xs text-slate-400">Colore Primario Dettagli:</span>
+                <div className="flex items-center gap-2.5">
+                  {[
+                    { color: '#0ea5e9', name: 'Sky Cyan' },
+                    { color: '#6366f1', name: 'Indigo' },
+                    { color: '#10b981', name: 'Emerald' },
+                    { color: '#f59e0b', name: 'Amber Gold' },
+                    { color: '#0f172a', name: 'Slate Dark' },
+                    { color: '#e11d48', name: 'Rose Red' },
+                    { color: '#8b5cf6', name: 'Violet' }
+                  ].map(({ color, name }) => (
+                    <button
+                      key={color}
+                      type="button"
+                      title={name}
+                      onClick={() => onChange({ ...doc, accentColor: color, updatedAt: new Date().toISOString() })}
+                      style={{ backgroundColor: color }}
+                      className={`w-6 h-6 rounded-full border-2 transition ${doc.accentColor === color
+                          ? 'border-white scale-125 shadow-lg shadow-sky-500/20 ring-2 ring-sky-400/50'
+                          : 'border-transparent opacity-75 hover:opacity-100 hover:scale-110'
+                        }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          );
 };
 
