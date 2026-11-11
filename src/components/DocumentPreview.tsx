@@ -116,7 +116,9 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
             {/* Firma Emittente */}
             {doc.requireSignature && (
               <div className="border-t border-slate-800/80 pt-3 text-[11px]">
-                <span className="text-[9px] font-mono-code uppercase text-slate-500 block mb-1">Firma Emittente</span>
+                <span className="text-[9px] font-mono-code uppercase text-slate-500 block mb-1">
+                  {doc.sender.signatureLabel || 'Firma Emittente'}
+                </span>
                 <div className="font-serif italic text-sm text-slate-200 min-h-[28px] flex items-end">
                   {doc.sender.signatureText || doc.sender.companyName}
                 </div>
@@ -802,7 +804,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                                             <div className="pt-6 border-t border-slate-200 grid grid-cols-2 gap-8 text-xs">
                                                 <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
                                                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2 font-mono-code">
-                                                    TIMBRO E FIRMA EMITTENTE
+                                                    {doc.sender.signatureLabel || 'TIMBRO E FIRMA EMITTENTE'}
                                                   </span>
                                                   <div className="font-serif italic text-base text-slate-800 min-h-[36px] flex items-end">
                                                     {doc.sender.signatureText || doc.sender.companyName}

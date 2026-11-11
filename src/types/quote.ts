@@ -2,7 +2,7 @@ export type TaxRegime = 'forfettario' | 'ordinario' | 'esente';
 export type CassaType = 'none' | 'inps_4' | 'cassa_4' | 'custom';
 export type QuoteStatus = 'bozza' | 'inviato' | 'accettato' | 'rifiutato' | 'scaduto';
 export type TemplateLayout = 'l2_executive' | 'swiss_minimal' | 'corporate_prestige' | 'modern_sidebar';
-export type BillingUnit = 'una tantum' | '/ semestre' | '/ mese' | '/ anno' | 'corpo' | 'ore' | 'gg';
+export type BillingUnit = 'una tantum' | '/ semestre' | '/ mese' | '/ anno' | 'corpo' | 'ore' | 'gg' | string;
 
 export interface SenderProfile {
   companyName: string;
@@ -23,6 +23,7 @@ export interface SenderProfile {
   logoDataUrl: string;
   signatureText: string;
   signatureDataUrl: string;
+  signatureLabel?: string;
 }
 
 export interface ClientInfo {
@@ -102,7 +103,7 @@ export interface QuoteDocument {
 export interface CatalogPresetItem {
   id: string;
   code: string;
-  category: 'Web & Bundle' | 'Social & Manutenzione' | 'Moduli Custom & ERP' | 'Design & SEO';
+  category: string;
   title: string;
   description: string;
   unit: BillingUnit;

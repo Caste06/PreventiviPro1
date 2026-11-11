@@ -1,6 +1,6 @@
 import React from 'react';
 import { QuoteDocument, QuoteLineItem, BillingUnit, TaxRegime, CassaType, TemplateLayout } from '../types/quote';
-import { Plus, Trash2, Tag, Percent, DollarSign, Building, UserCheck, ShieldCheck, CreditCard, Palette } from 'lucide-react';
+import { Plus, Trash2, Tag, Percent, DollarSign, Building, UserCheck, ShieldCheck, CreditCard, Palette, PenTool } from 'lucide-react';
 
 interface EditorFormProps {
   doc: QuoteDocument;
@@ -775,7 +775,57 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
         </div>
       </div>
 
-      {/* 6. TEMPLATE & ACCENT PALETTE */}
+      {/* 6. TIMBRO E FIRMA */}
+      <div className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div className="flex items-center gap-2 text-sky-400 font-mono-code text-xs uppercase tracking-wider">
+            <PenTool className="w-4 h-4" />
+            <span>Timbro, Firme & Accettazione</span>
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer text-xs text-slate-300">
+            <input
+              type="checkbox"
+              checked={doc.requireSignature}
+              onChange={(e) => onChange({ ...doc, requireSignature: e.target.checked, updatedAt: new Date().toISOString() })}
+              className="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0"
+            />
+            <span>Includi riquadri firma nel documento</span>
+          </label>
+        </div>
+
+        {doc.requireSignature && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div>
+              <label className="text-[10px] text-slate-400 block mb-1">Dicitura Intestazione Box Firma Emittente</label>
+              <input
+                type="text"
+                value={doc.sender.signatureLabel ?? 'TIMBRO E FIRMA EMITTENTE'}
+                onChange={(e) => updateSender('signatureLabel', e.target.value)}
+                placeholder="TIMBRO E FIRMA EMITTENTE"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code font-semibold"
+              />
+              <span className="text-[10px] text-slate-500 mt-1 block">
+                Testo visualizzato sopra il timbro (es. "TIMBRO E FIRMA EMITTENTE", "FIRMA DEL PROFESSIONISTA")
+              </span>
+            </div>
+            <div>
+              <label className="text-[10px] text-slate-400 block mb-1">Nome / Testo Firma Emittente</label>
+              <input
+                type="text"
+                value={doc.sender.signatureText || ''}
+                onChange={(e) => updateSender('signatureText', e.target.value)}
+                placeholder="Leonardo Castellani - L2Creative"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+              />
+              <span className="text-[10px] text-slate-500 mt-1 block">
+                Nome stampato in corsivo dentro al riquadro della firma
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 7. TEMPLATE & ACCENT PALETTE */}
         <div className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
           <div className="flex items-center gap-2 text-sky-400 font-mono-code text-xs uppercase tracking-wider border-b border-slate-800 pb-2">
             <Palette className="w-4 h-4" />

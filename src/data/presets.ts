@@ -21,7 +21,8 @@ export const DEFAULT_SENDER_PROFILE: SenderProfile = {
   accountHolder: 'L2Creative Digital Studio',
   logoDataUrl: L2_LOGO_SVG_DATA_URI,
   signatureText: 'Leonardo Castellani - L2Creative',
-  signatureDataUrl: ''
+  signatureDataUrl: '',
+  signatureLabel: 'TIMBRO E FIRMA EMITTENTE'
 };
 
 export const CATALOG_PRESETS: CatalogPresetItem[] = [

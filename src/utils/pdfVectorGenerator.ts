@@ -870,7 +870,8 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(7);
     pdf.setTextColor(100, 116, 139);
-    pdf.text('TIMBRO E FIRMA DEL FORNITORE', marginX + 4, y + 5);
+    const sigLabel = (doc.sender.signatureLabel || 'TIMBRO E FIRMA EMITTENTE').toUpperCase();
+    pdf.text(sigLabel, marginX + 4, y + 5);
 
     pdf.setFont('times', 'italic');
     pdf.setFontSize(10.5);
