@@ -8,7 +8,7 @@ export const DEFAULT_SENDER_PROFILE: SenderProfile = {
   tagline: 'Sviluppo Web Sartoriale, Software Gestionali & Digital Strategy',
   vatNumber: 'IT01234567890',
   taxCode: 'CSTLRD00A01A662X',
-  sdiOrPec: 'l2creative@pec.it · SDI: M5UXCR1',
+  sdiOrPec: '',
   address: 'Via dell’Innovazione Digitale, 12',
   zip: '62012',
   city: 'Civitanova Marche',

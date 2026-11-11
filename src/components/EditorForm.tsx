@@ -278,6 +278,17 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
             </div>
           </div>
 
+          <div>
+            <label className="text-[10px] text-slate-400 block">Codice SDI / PEC Fatturazione</label>
+            <input
+              type="text"
+              value={doc.sender.sdiOrPec || ''}
+              onChange={(e) => updateSender('sdiOrPec', e.target.value)}
+              placeholder="es. SDI: M5UXCR1 o pec@dominio.it (lascia vuoto se non desideri inserirlo)"
+              className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+            />
+          </div>
+
           <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="text-[10px] text-slate-400 block">IBAN Pagamenti</label>

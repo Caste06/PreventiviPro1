@@ -100,6 +100,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                 {doc.sender.taxCode && <div>C.F.: {doc.sender.taxCode}</div>}
                 <div className="pt-1 text-slate-300">{doc.sender.email}</div>
                 <div>{doc.sender.phone}</div>
+                {doc.sender.sdiOrPec && <div className="text-[10px] text-slate-400">{doc.sender.sdiOrPec}</div>}
                 {doc.sender.website && <div>{doc.sender.website}</div>}
               </div>
 
@@ -285,9 +286,9 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                       <span className="font-mono-code">{formatCurrency(totals.cassaAmount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between items-center font-bold text-white p-2 rounded-lg mt-2" style={{ backgroundColor: '#0f172a' }}>
-                    <span className="text-xs">TOTALE:</span>
-                    <span className="font-mono-code text-sm" style={{ color: accent }}>{formatCurrency(totals.grossTotal)}</span>
+                  <div className="flex justify-between items-center font-bold text-white p-2.5 rounded-lg mt-2" style={{ backgroundColor: '#0f172a' }}>
+                    <span className="text-xs text-white">TOTALE:</span>
+                    <span className="font-mono-code text-sm text-white font-bold">{formatCurrency(totals.grossTotal)}</span>
                   </div>
                 </div>
               </div>
@@ -475,6 +476,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                             <div>{formatFullAddress(doc.sender.address, doc.sender.zip, doc.sender.city, doc.sender.province)}</div>
                             <div>P.IVA: <span className="font-mono-code">{doc.sender.vatNumber}</span> {doc.sender.taxCode && `· C.F.: ${doc.sender.taxCode}`}</div>
                             <div>Email: {doc.sender.email} {doc.sender.phone && `· Tel: ${doc.sender.phone}`}</div>
+                            {doc.sender.sdiOrPec && <div className="text-[11px] text-slate-500">{doc.sender.sdiOrPec}</div>}
                           </div>
                         </div>
 
@@ -748,17 +750,17 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                                                   style={{ borderBottom: `3px double ${accent}` }}
                                                 >
                                                   <span className="font-serif">TOTALE DOCUMENTO:</span>
-                                                  <span className="font-mono-code text-base text-amber-300">{formatCurrency(totals.grossTotal)}</span>
+                                                  <span className="font-mono-code text-base text-white font-bold">{formatCurrency(totals.grossTotal)}</span>
                                                 </div>
                                               ) : template === 'swiss_minimal' ? (
                                                 <div className="flex justify-between items-center text-sm font-black p-3 rounded-lg mt-3 bg-slate-900 text-white">
                                                   <span className="font-mono-code tracking-wider uppercase">TOTALE:</span>
-                                                  <span className="font-mono-code text-base" style={{ color: accent }}>{formatCurrency(totals.grossTotal)}</span>
+                                                  <span className="font-mono-code text-base text-white font-bold">{formatCurrency(totals.grossTotal)}</span>
                                                 </div>
                                               ) : (
                                                 <div className="flex justify-between items-center text-sm font-bold text-white p-3 rounded-lg mt-3" style={{ backgroundColor: '#0f172a' }}>
                                                   <span>TOTALE:</span>
-                                                  <span className="font-mono-code text-base" style={{ color: accent }}>{formatCurrency(totals.grossTotal)}</span>
+                                                  <span className="font-mono-code text-base text-white font-bold">{formatCurrency(totals.grossTotal)}</span>
                                                 </div>
                                               )}
 

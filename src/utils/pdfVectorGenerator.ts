@@ -730,7 +730,7 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
       pdf.setFontSize(9.2);
       pdf.setTextColor(255, 255, 255);
       pdf.text(label, rightColX + 4, rightY + 6.5);
-      pdf.setTextColor(accR, accG, accB);
+      pdf.setTextColor(255, 255, 255);
       pdf.text(val, rightColX + rightColW - 4, rightY + 6.5, { align: 'right' });
       rightY += 11.5;
     } else {
