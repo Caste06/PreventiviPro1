@@ -20,7 +20,7 @@ export const DEFAULT_SENDER_PROFILE: SenderProfile = {
   iban: 'IT60 X030 6909 6061 0000 0123 456',
   accountHolder: 'L2Creative Digital Studio',
   logoDataUrl: L2_LOGO_SVG_DATA_URI,
-  signatureText: 'Leonardo Castellani — L2Creative',
+  signatureText: 'Leonardo Castellani - L2Creative',
   signatureDataUrl: ''
 };
 
@@ -40,7 +40,7 @@ export const CATALOG_PRESETS: CatalogPresetItem[] = [
     id: 'cat-bundle-premium-setup',
     code: 'BND-001',
     category: 'Web & Bundle',
-    title: 'Bundle Premium — Sviluppo Sito Vetrina Multipagina (Tariffa Agevolata Bundle)',
+    title: 'Bundle Premium - Sviluppo Sito Vetrina Multipagina (Tariffa Agevolata Bundle)',
     description:
       '• Progettazione e sviluppo completo Sito Vetrina Multipagina su misura (tariffa scontata da 350€ a 300€ in abbinamento al piano integrato Social + Manutenzione)\n• Design coordinato con l’identità visiva dei canali social aziendali\n• Ottimizzazione SEO, sicurezza SSL e performance Core Vitals 99+',
     unit: 'una tantum',
@@ -95,7 +95,7 @@ export const CATALOG_PRESETS: CatalogPresetItem[] = [
     id: 'cat-addon-booking',
     code: 'MOD-BKG',
     category: 'Moduli Custom & ERP',
-    title: 'Booking Engine — Sistema di Prenotazione Interattivo in Tempo Reale',
+    title: 'Booking Engine - Sistema di Prenotazione Interattivo in Tempo Reale',
     description:
       '• Motore di prenotazione con calendario dinamico, fasce orarie e verifica disponibilità in tempo reale\n• Pannello amministrativo per gestione prenotazioni, blocchi orari, tavoli/coperti o campi sportivi\n• Notifiche email automatiche di conferma al cliente e al gestore',
     unit: 'una tantum',
@@ -182,7 +182,7 @@ export function createDefaultQuoteDocument(): QuoteDocument {
       {
         id: 'item-1',
         code: 'BND-001',
-        title: 'Bundle Premium — Sviluppo Sito Vetrina Multipagina su Misura',
+        title: 'Bundle Premium - Sviluppo Sito Vetrina Multipagina su Misura',
         description:
           '• Struttura multipagina (Home, Chi Siamo, Servizi, Progetti, Contatti)\n• Design responsive sartoriale su misura (Mobile, Tablet, Desktop)\n• Codice nativo ultra-performante (Google Core Web Vitals 99+)\n• Modulo contatti rapido e ottimizzazione SEO tecnica con indicizzazione Google\n• Tariffa agevolata Bundle (300€ anziché 350€)',
         quantity: 1,
@@ -245,7 +245,7 @@ export function createDefaultQuoteDocument(): QuoteDocument {
       globalDiscountType: 'percent',
       globalDiscountValue: 0,
       forfettarioNote:
-        'Operazione effettuata ai sensi dell’art. 1, commi da 54 a 89, della Legge n. 190/2014 e s.m.i. (Regime Forfettario) — Operazione in franchigia da IVA e non soggetta a ritenuta d’acconto. Imposta di bollo da € 2,00 assolta sull’originale per importi superiori a € 77,47.'
+        'Operazione effettuata ai sensi dell’art. 1, commi da 54 a 89, della Legge n. 190/2014 e s.m.i. (Regime Forfettario) - Operazione in franchigia da IVA e non soggetta a ritenuta d’acconto. Imposta di bollo da € 2,00 assolta sull’originale per importi superiori a € 77,47.'
     },
     updatedAt: new Date().toISOString()
   };

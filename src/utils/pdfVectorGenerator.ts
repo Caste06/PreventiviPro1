@@ -307,7 +307,7 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
   pdf.setFontSize(7.6);
   const senderBodyLines: string[] = [];
   const senderLoc = formatLoc(doc.sender.zip, doc.sender.city, doc.sender.province);
-  const senderFullAddr = [doc.sender.address, senderLoc].filter(Boolean).join(' — ');
+  const senderFullAddr = [doc.sender.address, senderLoc].filter(Boolean).join(' - ');
   if (senderFullAddr) {
     senderBodyLines.push(...pdf.splitTextToSize(senderFullAddr, textW));
   }
@@ -338,7 +338,7 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
     clientBodyLines.push(...pdf.splitTextToSize(`Alla c.a.: ${doc.client.contactPerson}`, textW));
   }
   const clientLoc = formatLoc(doc.client.zip, doc.client.city, doc.client.province);
-  const clientFullAddr = [doc.client.address, clientLoc].filter(Boolean).join(' — ');
+  const clientFullAddr = [doc.client.address, clientLoc].filter(Boolean).join(' - ');
   if (clientFullAddr) {
     clientBodyLines.push(...pdf.splitTextToSize(clientFullAddr, textW));
   }
@@ -567,8 +567,8 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
     pdf.text(formatCurrency(item.unitPrice), colPriceX, y + 5.5, { align: 'right' });
 
     // Discount / VAT
-    const discLabel = item.discountPercent > 0 ? `-${item.discountPercent}%` : '—';
-    const vatLabel = isExempt ? discLabel : `${discLabel !== '—' ? discLabel + ' ' : ''}${item.vatRate}%`;
+    const discLabel = item.discountPercent > 0 ? `-${item.discountPercent}%` : '-';
+    const vatLabel = isExempt ? discLabel : `${discLabel !== '-' ? discLabel + ' ' : ''}${item.vatRate}%`;
     pdf.setFontSize(7.5);
     pdf.setTextColor(100, 116, 139);
     pdf.text(vatLabel, colDiscX, y + 5.5, { align: 'right' });
@@ -599,7 +599,7 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(8.2);
       const optTitleW = contentW - 40;
-      const optText = `${opt.code ? opt.code + ' — ' : ''}${opt.title} (${opt.unit})`;
+      const optText = `${opt.code ? opt.code + ' - ' : ''}${opt.title} (${opt.unit})`;
       const optLines = pdf.splitTextToSize(optText, optTitleW);
       const optH = Math.max(7, optLines.length * 4.2 + 3);
 

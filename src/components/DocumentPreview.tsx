@@ -24,7 +24,7 @@ const formatFullAddress = (address?: string, zip?: string, city?: string, provin
   const parts: string[] = [];
   if (address?.trim()) parts.push(address.trim());
   if (loc) parts.push(loc);
-  return parts.join(' — ');
+  return parts.join(' - ');
 };
 
 export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
@@ -470,7 +470,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                           </span>
                           <div className="font-bold text-sm text-slate-900">{doc.sender.companyName}</div>
                           <div className="text-xs text-slate-600 mt-1 space-y-0.5">
-                            <div>{doc.sender.address} — {doc.sender.zip} {doc.sender.city} ({doc.sender.province})</div>
+                            <div>{formatFullAddress(doc.sender.address, doc.sender.zip, doc.sender.city, doc.sender.province)}</div>
                             <div>P.IVA: <span className="font-mono-code">{doc.sender.vatNumber}</span> {doc.sender.taxCode && `· C.F.: ${doc.sender.taxCode}`}</div>
                             <div>Email: {doc.sender.email} {doc.sender.phone && `· Tel: ${doc.sender.phone}`}</div>
                           </div>
