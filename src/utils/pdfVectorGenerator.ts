@@ -670,12 +670,17 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
       pdf.setTextColor(30, 41, 59);
       pdf.text(`• ${ms.label} (${ms.percentage}%): ${formatCurrency(amount)}`, marginX + 1, leftY + 3.5);
 
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(7.2);
-      pdf.setTextColor(100, 116, 139);
-      const timingLines = pdf.splitTextToSize(`  Scadenza: ${ms.timing}`, leftColW - 6);
-      pdf.text(timingLines, marginX + 2.5, leftY + 7.2);
-      leftY += 8 + timingLines.length * 3.5;
+      if (ms.timing && ms.timing.trim()) {
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(7.2);
+        pdf.setTextColor(100, 116, 139);
+        const timingPrefix = ms.timing.toLowerCase().startsWith('scadenza') ? ms.timing : `Scadenza: ${ms.timing}`;
+        const timingLines = pdf.splitTextToSize(`  ${timingPrefix}`, leftColW - 6);
+        pdf.text(timingLines, marginX + 2.5, leftY + 7.2);
+        leftY += 8 + timingLines.length * 3.5;
+      } else {
+        leftY += 6;
+      }
     });
   }
 

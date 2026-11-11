@@ -703,55 +703,106 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
 
       {/* 5. PAYMENT MILESTONES & TERMS */}
       <div className="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-4">
-        <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-          <div className="flex items-center gap-2 text-sky-400 font-mono-code text-xs uppercase tracking-wider">
+        <div className="border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2 text-sky-400 font-mono-code text-xs uppercase tracking-wider mb-3">
             <CreditCard className="w-4 h-4" />
-            <span>Condizioni Contrattuali & Ripartizione Pagamenti</span>
+            <span>Condizioni di Pagamento & Piano Scadenze</span>
           </div>
-          <button
-            onClick={addMilestone}
-            className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition"
-          >
-            + Aggiungi Rata
-          </button>
+
+          <div>
+            <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+              Modalità & Termini Generali di Pagamento
+            </label>
+            <input
+              type="text"
+              value={doc.paymentMethodLabel}
+              onChange={(e) => onChange({ ...doc, paymentMethodLabel: e.target.value })}
+              placeholder="es. Bonifico Bancario su IBAN indicato / Bonifico 30 gg d.f."
+              className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+            />
+          </div>
         </div>
 
-        <div className="space-y-2">
-          {doc.milestones.map((m) => (
-            <div key={m.id} className="flex items-center gap-2 bg-slate-950 p-2 rounded-lg border border-slate-800">
-              <input
-                type="text"
-                value={m.label}
-                onChange={(e) => updateMilestone(m.id, 'label', e.target.value)}
-                placeholder="Fase o descrizione rata..."
-                className="flex-1 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs"
-              />
-              <div className="flex items-center gap-1 w-20">
-                <input
-                  type="number"
-                  min={1}
-                  max={100}
-                  value={m.percentage}
-                  onChange={(e) => updateMilestone(m.id, 'percentage', parseInt(e.target.value, 10) || 0)}
-                  className="w-12 px-1.5 py-1 bg-slate-900 border border-slate-700 rounded text-xs font-mono-code text-right"
-                />
-                <span className="text-xs text-slate-400">%</span>
-              </div>
-              <input
-                type="text"
-                value={m.timing}
-                onChange={(e) => updateMilestone(m.id, 'timing', e.target.value)}
-                placeholder="Tempistica scadenza..."
-                className="w-48 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs text-slate-400"
-              />
+        <div>
+          <div className="flex justify-between items-center mb-2">
+            <div>
+              <span className="text-xs font-semibold text-slate-300 block">Ripartizione Rate e Scadenze Pagamento</span>
+              <span className="text-[11px] text-slate-500">
+                Puoi impostare acconti e saldi con le relative scadenze (es. alla firma, alla consegna).
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              {doc.milestones.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => onChange({ ...doc, milestones: [], updatedAt: new Date().toISOString() })}
+                  className="px-2 py-1 rounded bg-slate-800 hover:bg-rose-950/60 text-slate-400 hover:text-rose-300 text-xs transition"
+                  title="Rimuovi tutte le rate per avere un pagamento unico"
+                >
+                  Rimuovi Rate
+                </button>
+              )}
               <button
-                onClick={() => removeMilestone(m.id)}
-                className="p-1 rounded text-slate-500 hover:text-rose-400 transition"
+                type="button"
+                onClick={addMilestone}
+                className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                + Aggiungi Rata
               </button>
             </div>
-          ))}
+          </div>
+
+          {doc.milestones.length === 0 ? (
+            <div className="p-3 rounded-lg bg-slate-950/50 border border-slate-800 text-center text-xs text-slate-500">
+              Nessun piano rateale attivo. L'importo totale sarà saldato in un'unica soluzione secondo la modalità indicata sopra.
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 px-1 text-[10px] text-slate-500 font-mono-code uppercase">
+                <span className="flex-1">Descrizione Rata</span>
+                <span className="w-20 text-right pr-2">% Rata</span>
+                <span className="w-48">Scadenza Pagamento</span>
+                <span className="w-6"></span>
+              </div>
+              {doc.milestones.map((m) => (
+                <div key={m.id} className="flex items-center gap-2 bg-slate-950 p-2 rounded-lg border border-slate-800">
+                  <input
+                    type="text"
+                    value={m.label}
+                    onChange={(e) => updateMilestone(m.id, 'label', e.target.value)}
+                    placeholder="es. Acconto di avvio, Saldo alla consegna..."
+                    className="flex-1 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs"
+                  />
+                  <div className="flex items-center gap-1 w-20">
+                    <input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={m.percentage}
+                      onChange={(e) => updateMilestone(m.id, 'percentage', parseInt(e.target.value, 10) || 0)}
+                      className="w-12 px-1.5 py-1 bg-slate-900 border border-slate-700 rounded text-xs font-mono-code text-right"
+                    />
+                    <span className="text-xs text-slate-400">%</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={m.timing}
+                    onChange={(e) => updateMilestone(m.id, 'timing', e.target.value)}
+                    placeholder="es. Alla firma / A 30 giorni / Alla consegna..."
+                    className="w-48 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs text-slate-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeMilestone(m.id)}
+                    className="p-1 rounded text-slate-500 hover:text-rose-400 transition"
+                    title="Elimina rata"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">

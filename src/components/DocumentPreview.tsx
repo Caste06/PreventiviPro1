@@ -248,11 +248,18 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                         PIANO PAGAMENTI
                       </span>
                       {doc.milestones.map((m) => (
-                        <div key={m.id} className="flex justify-between items-center p-1.5 rounded bg-slate-50 border border-slate-200">
-                          <span className="text-slate-700">{m.label} ({m.percentage}%)</span>
-                          <span className="font-mono-code font-bold text-slate-900">
-                            {formatCurrency((totals.netToPay * m.percentage) / 100)}
-                          </span>
+                        <div key={m.id} className="p-1.5 rounded bg-slate-50 border border-slate-200">
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-700 font-medium">{m.label} ({m.percentage}%)</span>
+                            <span className="font-mono-code font-bold text-slate-900">
+                              {formatCurrency((totals.netToPay * m.percentage) / 100)}
+                            </span>
+                          </div>
+                          {m.timing && (
+                            <div className="text-[10px] text-slate-500 mt-0.5">
+                              Scadenza: {m.timing}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -663,7 +670,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                                                 <div key={m.id} className="flex justify-between items-center text-xs p-2 rounded-lg bg-slate-50 border border-slate-200">
                                                   <div>
                                                     <strong className="text-slate-800">{m.label} ({m.percentage}%)</strong>
-                                                    <div className="text-[11px] text-slate-500">{m.timing}</div>
+                                                    {m.timing && <div className="text-[11px] text-slate-500">Scadenza: {m.timing}</div>}
                                                   </div>
                                                   <div className="font-mono-code font-bold text-slate-900">
                                                     {formatCurrency((totals.netToPay * m.percentage) / 100)}
