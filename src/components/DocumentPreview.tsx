@@ -11,6 +11,22 @@ interface DocumentPreviewProps {
   doc: QuoteDocument;
 }
 
+const formatLocation = (zip?: string, city?: string, province?: string) => {
+  const parts: string[] = [];
+  if (zip?.trim()) parts.push(zip.trim());
+  if (city?.trim()) parts.push(city.trim());
+  if (province?.trim()) parts.push(`(${province.trim().toUpperCase()})`);
+  return parts.join(' ');
+};
+
+const formatFullAddress = (address?: string, zip?: string, city?: string, province?: string) => {
+  const loc = formatLocation(zip, city, province);
+  const parts: string[] = [];
+  if (address?.trim()) parts.push(address.trim());
+  if (loc) parts.push(loc);
+  return parts.join(' — ');
+};
+
 export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
   const totals = calculateQuoteTotals(doc);
   const isExempt = doc.fiscal.regime === 'forfettario' || doc.fiscal.regime === 'esente';
@@ -119,7 +135,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                 <div className="font-bold text-sm text-slate-900">{doc.client.companyName || 'Spett.le Cliente'}</div>
                 <div className="text-xs text-slate-600 mt-1 space-y-0.5">
                   {doc.client.contactPerson && <div className="font-medium text-slate-700">C.a.: {doc.client.contactPerson}</div>}
-                  <div>{doc.client.address || 'Indirizzo'} {doc.client.city && `— ${doc.client.zip} ${doc.client.city} (${doc.client.province})`}</div>
+                  <div>{formatFullAddress(doc.client.address, doc.client.zip, doc.client.city, doc.client.province) || 'Indirizzo da definire'}</div>
                   {(doc.client.vatNumber || doc.client.taxCode) && (
                     <div>
                       {doc.client.vatNumber && `P.IVA: ${doc.client.vatNumber}`}
@@ -467,7 +483,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                           <div className="font-bold text-sm text-slate-900">{doc.client.companyName || 'Spett.le Cliente'}</div>
                           <div className="text-xs text-slate-600 mt-1 space-y-0.5">
                             {doc.client.contactPerson && <div className="font-medium text-slate-700">C.a.: {doc.client.contactPerson}</div>}
-                            <div>{doc.client.address || 'Indirizzo'} {doc.client.city && `— ${doc.client.zip} ${doc.client.city} (${doc.client.province})`}</div>
+                            <div>{formatFullAddress(doc.client.address, doc.client.zip, doc.client.city, doc.client.province) || 'Indirizzo da definire'}</div>
                             {(doc.client.vatNumber || doc.client.taxCode) && (
                               <div>
                                 {doc.client.vatNumber && `P.IVA: ${doc.client.vatNumber}`}
@@ -487,7 +503,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                           </span>
                           <div className="font-bold text-sm text-slate-900">{doc.sender.companyName}</div>
                           <div className="text-xs text-slate-600 mt-1 space-y-0.5">
-                            <div>{doc.sender.address} — {doc.sender.zip} {doc.sender.city} ({doc.sender.province})</div>
+                            <div>{formatFullAddress(doc.sender.address, doc.sender.zip, doc.sender.city, doc.sender.province)}</div>
                             <div>P.IVA: <span className="font-mono-code">{doc.sender.vatNumber}</span> {doc.sender.taxCode && `· C.F.: ${doc.sender.taxCode}`}</div>
                             <div>Email: {doc.sender.email} {doc.sender.phone && `· Tel: ${doc.sender.phone}`}</div>
                             {doc.sender.sdiOrPec && <div className="text-[11px] text-slate-500">{doc.sender.sdiOrPec}</div>}
@@ -501,7 +517,7 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ doc }) => {
                               <div className="font-bold text-sm text-slate-900">{doc.client.companyName || 'Spett.le Cliente'}</div>
                               <div className="text-xs text-slate-600 mt-1 space-y-0.5">
                                 {doc.client.contactPerson && <div className="font-medium text-slate-700">C.a.: {doc.client.contactPerson}</div>}
-                                <div>{doc.client.address || 'Indirizzo da definire'} {doc.client.city && `— ${doc.client.zip} ${doc.client.city} (${doc.client.province})`}</div>
+                                <div>{formatFullAddress(doc.client.address, doc.client.zip, doc.client.city, doc.client.province) || 'Indirizzo da definire'}</div>
                                 {(doc.client.vatNumber || doc.client.taxCode) && (
                                   <div>
                                     {doc.client.vatNumber && `P.IVA: ${doc.client.vatNumber}`}

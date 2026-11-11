@@ -196,6 +196,7 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
                 type="text"
                 value={doc.sender.vatNumber}
                 onChange={(e) => updateSender('vatNumber', e.target.value)}
+                placeholder="IT01234567890"
                 className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code"
               />
             </div>
@@ -205,32 +206,53 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
                 type="text"
                 value={doc.sender.taxCode}
                 onChange={(e) => updateSender('taxCode', e.target.value)}
+                placeholder="CSTLRD00A01A662X"
                 className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            <div className="col-span-2">
-              <label className="text-[10px] text-slate-400 block">Indirizzo</label>
+          <div>
+            <label className="text-[10px] text-slate-400 block">Indirizzo Sede</label>
+            <input
+              type="text"
+              value={doc.sender.address}
+              onChange={(e) => updateSender('address', e.target.value)}
+              placeholder="Via dell’Innovazione Digitale, 12"
+              className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+            />
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            <div className="col-span-1">
+              <label className="text-[10px] text-slate-400 block">CAP</label>
               <input
                 type="text"
-                value={doc.sender.address}
-                onChange={(e) => updateSender('address', e.target.value)}
+                value={doc.sender.zip}
+                onChange={(e) => updateSender('zip', e.target.value)}
+                placeholder="62012"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code"
+              />
+            </div>
+            <div className="col-span-2">
+              <label className="text-[10px] text-slate-400 block">Città</label>
+              <input
+                type="text"
+                value={doc.sender.city}
+                onChange={(e) => updateSender('city', e.target.value)}
+                placeholder="Civitanova Marche"
                 className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
               />
             </div>
-            <div>
-              <label className="text-[10px] text-slate-400 block">Città (Prov)</label>
+            <div className="col-span-1">
+              <label className="text-[10px] text-slate-400 block">Provincia</label>
               <input
                 type="text"
-                value={`${doc.sender.city} (${doc.sender.province})`}
-                onChange={(e) => {
-                  const parts = e.target.value.split('(');
-                  updateSender('city', parts[0].trim());
-                  if (parts[1]) updateSender('province', parts[1].replace(')', '').trim());
-                }}
-                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+                value={doc.sender.province}
+                onChange={(e) => updateSender('province', e.target.value.toUpperCase())}
+                placeholder="MC"
+                maxLength={4}
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-center uppercase font-mono-code"
               />
             </div>
           </div>
@@ -285,58 +307,93 @@ export const EditorForm: React.FC<EditorFormProps> = ({ doc, onChange, onOpenCat
             <span>Dati Committente / Cliente</span>
           </div>
 
-          <div>
-            <label className="text-[10px] text-slate-400 block">Ragione Sociale Cliente</label>
-            <input
-              type="text"
-              value={doc.client.companyName}
-              onChange={(e) => updateClient('companyName', e.target.value)}
-              className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-semibold"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
-              <label className="text-[10px] text-slate-400 block">Persona di Riferimento</label>
+              <label className="text-[10px] text-slate-400 block">Ragione Sociale / Nome Cliente</label>
+              <input
+                type="text"
+                value={doc.client.companyName}
+                onChange={(e) => updateClient('companyName', e.target.value)}
+                placeholder="Rossi Costruzioni & Design S.r.l."
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-semibold"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] text-slate-400 block">Persona di Riferimento (C.a.)</label>
               <input
                 type="text"
                 value={doc.client.contactPerson}
                 onChange={(e) => updateClient('contactPerson', e.target.value)}
+                placeholder="Dott. Marco Rossi"
                 className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
               />
             </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[10px] text-slate-400 block">Partita IVA / C.F.</label>
+              <label className="text-[10px] text-slate-400 block">Partita IVA</label>
               <input
                 type="text"
                 value={doc.client.vatNumber}
                 onChange={(e) => updateClient('vatNumber', e.target.value)}
+                placeholder="IT09876543210"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] text-slate-400 block">Codice Fiscale</label>
+              <input
+                type="text"
+                value={doc.client.taxCode}
+                onChange={(e) => updateClient('taxCode', e.target.value)}
+                placeholder="09876543210 / RSSMRA..."
                 className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            <div className="col-span-2">
-              <label className="text-[10px] text-slate-400 block">Indirizzo Sede</label>
+          <div>
+            <label className="text-[10px] text-slate-400 block">Indirizzo Sede</label>
+            <input
+              type="text"
+              value={doc.client.address}
+              onChange={(e) => updateClient('address', e.target.value)}
+              placeholder="Viale della Repubblica, 45"
+              className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+            />
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            <div className="col-span-1">
+              <label className="text-[10px] text-slate-400 block">CAP</label>
               <input
                 type="text"
-                value={doc.client.address}
-                onChange={(e) => updateClient('address', e.target.value)}
+                value={doc.client.zip}
+                onChange={(e) => updateClient('zip', e.target.value)}
+                placeholder="20124"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs font-mono-code"
+              />
+            </div>
+            <div className="col-span-2">
+              <label className="text-[10px] text-slate-400 block">Città</label>
+              <input
+                type="text"
+                value={doc.client.city}
+                onChange={(e) => updateClient('city', e.target.value)}
+                placeholder="Milano"
                 className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
               />
             </div>
-            <div>
-              <label className="text-[10px] text-slate-400 block">Città (Prov)</label>
+            <div className="col-span-1">
+              <label className="text-[10px] text-slate-400 block">Provincia</label>
               <input
                 type="text"
-                value={`${doc.client.city} (${doc.client.province})`}
-                onChange={(e) => {
-                  const parts = e.target.value.split('(');
-                  updateClient('city', parts[0].trim());
-                  if (parts[1]) updateClient('province', parts[1].replace(')', '').trim());
-                }}
-                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs"
+                value={doc.client.province}
+                onChange={(e) => updateClient('province', e.target.value.toUpperCase())}
+                placeholder="MI"
+                maxLength={4}
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-center uppercase font-mono-code"
               />
             </div>
           </div>

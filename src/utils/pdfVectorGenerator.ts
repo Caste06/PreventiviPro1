@@ -289,6 +289,15 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
   const innerPad = 4;
   const textW = boxW - innerPad * 2; // ~80mm di larghezza utile per il testo
 
+  // Helper formattazione località (CAP, Città, Provincia)
+  const formatLoc = (zip?: string, city?: string, prov?: string) => {
+    const parts: string[] = [];
+    if (zip?.trim()) parts.push(zip.trim());
+    if (city?.trim()) parts.push(city.trim());
+    if (prov?.trim()) parts.push(`(${prov.trim().toUpperCase()})`);
+    return parts.join(' ');
+  };
+
   // Pre-calcolo linee Mittente
   pdf.setFont('helvetica', 'bold');
   pdf.setFontSize(9.5);
@@ -297,9 +306,10 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
   pdf.setFont('helvetica', 'normal');
   pdf.setFontSize(7.6);
   const senderBodyLines: string[] = [];
-  if (doc.sender.address) {
-    const addr = `${doc.sender.address} — ${doc.sender.zip} ${doc.sender.city} (${doc.sender.province})`;
-    senderBodyLines.push(...pdf.splitTextToSize(addr, textW));
+  const senderLoc = formatLoc(doc.sender.zip, doc.sender.city, doc.sender.province);
+  const senderFullAddr = [doc.sender.address, senderLoc].filter(Boolean).join(' — ');
+  if (senderFullAddr) {
+    senderBodyLines.push(...pdf.splitTextToSize(senderFullAddr, textW));
   }
   const senderFiscal = [
     doc.sender.vatNumber ? `P.IVA: ${doc.sender.vatNumber}` : '',
@@ -327,9 +337,10 @@ export async function generateVectorQuotePdf(doc: QuoteDocument): Promise<void> 
   if (doc.client.contactPerson) {
     clientBodyLines.push(...pdf.splitTextToSize(`Alla c.a.: ${doc.client.contactPerson}`, textW));
   }
-  if (doc.client.address || doc.client.city) {
-    const cAddr = `${doc.client.address || ''}${doc.client.city ? ` — ${doc.client.zip || ''} ${doc.client.city} (${doc.client.province || ''})` : ''}`.trim();
-    if (cAddr) clientBodyLines.push(...pdf.splitTextToSize(cAddr, textW));
+  const clientLoc = formatLoc(doc.client.zip, doc.client.city, doc.client.province);
+  const clientFullAddr = [doc.client.address, clientLoc].filter(Boolean).join(' — ');
+  if (clientFullAddr) {
+    clientBodyLines.push(...pdf.splitTextToSize(clientFullAddr, textW));
   }
   const clientFiscal = [
     doc.client.vatNumber ? `P.IVA: ${doc.client.vatNumber}` : '',
